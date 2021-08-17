@@ -2,13 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>UserPage</title>
+    <title>User Data</title>
 </head>
 <body>
-<p th:text="${userPage.username}">User Name</p>
-<p th:text="${userPage.firstName}">First Name</p>
-<p th:text="${userPage.lastName}">Last Name</p>
-<p th:text="${userPage.dateOfBirth}">Date Of Birth</p>
-<p th:text="${userPage.bio}">Bio</p>
+
+<h2 th:text="${userData}"></h2>
+
+<form action="/home" method="get">
+    <button type="submit">Home</button>
+</form>
+<img src="https://c.tenor.com/o0KwNh5LwK4AAAAC/cat-meow.gif" alt="ProfilePicture">
+<p th:text="${userProfile.username}">User Name</p>
+<p th:text="${userProfile.firstName}">First Name</p>
+<p th:text="${userProfile.lastName}">Last Name</p>
+<p th:text="${userProfile.dateOfBirth}">Date Of Birth</p>
+<p th:text="${userProfile.bio}">Bio</p>
 </body>
 </html>
+
+
+
+
+
+
+
+

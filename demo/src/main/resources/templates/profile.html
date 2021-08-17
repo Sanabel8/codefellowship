@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile page</title>
+</head>
+<body>
+
+<div>
+    <p th:text="${userProfile.username}">User Name</p>
+    <p th:text="${userProfile.firstName}">First Name</p>
+    <p th:text="${userProfile.lastName}">Last Name</p>
+    <p th:text="${userProfile.dateOfBirth}">Date Of Birth</p>
+    <p th:text="${userProfile.bio}">Bio</p>
+</div>
+
+<div>
+    <form action="addpost" method="post">
+        <label for="body"> To Add post<br></label>
+        <input type="textarea" name="body" id="body">
+        <button type="submit">Add post</button>
+    </form>
+</div>
+
+
+
+        <div th:each="post : ${posts.posts}">
+            <p th:text="${posts.body}"></p>
+            <p th:text="${posts.createdAt}"></p>
+            <hr>
+        </div>
+
+</body>
+</html>

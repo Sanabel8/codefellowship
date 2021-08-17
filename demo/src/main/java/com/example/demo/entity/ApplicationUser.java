@@ -2,9 +2,7 @@ package com.example.demo.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import javax.xml.crypto.Data;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,39 +16,21 @@ public class ApplicationUser implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private Data dateOfBirth;
+    private String dateOfBirth;
     private String bio;
 
-    @OneToMany(mappedBy = "post" ,cascade = CascadeType.ALL)
-    private List<Post> post;
+    @OneToMany(mappedBy = "applicationUsers")
+    private List<Post> posts;
 
-    public ApplicationUser(String username, String password) {
+    public ApplicationUser(){}
+
+    public ApplicationUser(String username, String password, String firstName, String lastName, String dateOfBirth, String bio) {
         this.username = username;
         this.password = password;
-    }
-
-    public ApplicationUser(String username, String password, String firstName, String lastName, Data dateOfBirth, String bio) {
-
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
-    }
-
-    public List<Post> getPosts() {
-        return post;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.post = posts;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @Override
@@ -92,6 +72,22 @@ public class ApplicationUser implements UserDetails {
         return password;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -112,11 +108,11 @@ public class ApplicationUser implements UserDetails {
         this.lastName = lastName;
     }
 
-    public Data getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Data dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

@@ -1,7 +1,8 @@
 package com.example.demo.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -12,17 +13,26 @@ public class Post {
      private Integer id;
     @Column(unique = true)
      private String body;
-     LocalDate createdAt;
+     private String username;
+     @CreationTimestamp
+     private Date createdAt;
 
     @ManyToOne
-    ApplicationUser applicationUsers;
+    private ApplicationUser applicationUsers;
 
-    public Post(String body, Date timeStamp, ApplicationUser newUser){}
+    public Post(){}
 
-    public Post(String body, LocalDate createdAt ,ApplicationUser applicationUsers) {
+    public Post(String body,ApplicationUser applicationUsers) {
         this.body = body;
-        this.createdAt = createdAt;
         this.applicationUsers = applicationUsers;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public ApplicationUser getApplicationUsers() {
@@ -37,15 +47,23 @@ public class Post {
         return body;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setBody(String body) {
         this.body = body;
     }
 
-    public LocalDate getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 }
