@@ -15,6 +15,8 @@ public class Post {
      private String body;
      private String username;
      @CreationTimestamp
+     @Temporal(TemporalType.TIMESTAMP)
+     @Column(name = "create_dAt")
      private Date createdAt;
 
     @ManyToOne
