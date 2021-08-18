@@ -7,28 +7,30 @@
     <title>Profile page</title>
 </head>
 <body>
+<header th:replace="fragment :: header"></header>
 
 <div>
-    <p th:text="${userProfile.username}">User Name</p>
-    <p th:text="${userProfile.firstName}">First Name</p>
-    <p th:text="${userProfile.lastName}">Last Name</p>
-    <p th:text="${userProfile.dateOfBirth}">Date Of Birth</p>
-    <p th:text="${userProfile.bio}">Bio</p>
+    <h2>User Name: <span th:text="${requireduser.username}"></span>
+    </h2>
+    <h2>First Name: <span th:text="${requireduser.firstName}"></span></h2>
+    <h2>Last Name: <span th:text="${requireduser.lastName}"></span></h2>
+    <h2>Date Of Birth: <span th:text="${requireduser.dateOfBirth}"></span>
+    </h2>
+    <h2>Bio: <span th:text="${requireduser.bio}"></span></h2>
+
 </div>
 
 <div>
     <form action="addpost" method="post">
-        <label for="body"> To Add post<br></label>
         <input type="textarea" name="body" id="body">
         <button type="submit">Add post</button>
     </form>
 </div>
 
 
-
-        <div th:each="post : ${posts.posts}">
-            <p th:text="${posts.body}"></p>
-            <p th:text="${posts.createdAt}"></p>
+        <div th:each="post:${posts}">
+            <p th:text="${post.body}"></p>
+            <p th:text="${post.createdAt}"></p>
             <hr>
         </div>
 

@@ -20,21 +20,22 @@ public class ApplicationUser implements UserDetails {
     private String firstName;
     private String lastName;
     private String dateOfBirth;
+    @Column(columnDefinition = "text")
     private String bio;
 
     @OneToMany(mappedBy = "applicationUsers")
-    private List<Post> posts;
+    private List<Post> post;
 
     @ManyToMany
     @JoinTable(
-            name = "follwing_follwers",
-            joinColumns = @JoinColumn(name = "follower_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id"))
-    private Set<ApplicationUser> followers = new HashSet<>();
+            name = "applicationUserPage",
+            joinColumns = @JoinColumn(name = "followerUser"),
+            inverseJoinColumns = @JoinColumn(name = "followingUser"))
+    private Set<ApplicationUser> following = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "followers")
-    Set<ApplicationUser> following = new HashSet<>();
+    @ManyToMany(mappedBy = "following")
+    Set<ApplicationUser> followers = new HashSet<>();
 
 
     public ApplicationUser() {
@@ -89,11 +90,11 @@ public class ApplicationUser implements UserDetails {
     }
 
     public List<Post> getPosts() {
-        return posts;
+        return post;
     }
 
     public void setPosts(List<Post> posts) {
-        this.posts = posts;
+        this.post = posts;
     }
 
     public Integer getId() {
@@ -140,12 +141,12 @@ public class ApplicationUser implements UserDetails {
         this.bio = bio;
     }
 
-    public Set<ApplicationUser> getFollowers() {
-        return followers;
+    public List<Post> getPost() {
+        return post;
     }
 
-    public void setFollowers(Set<ApplicationUser> followers) {
-        this.followers = followers;
+    public void setPost(List<Post> post) {
+        this.post = post;
     }
 
     public Set<ApplicationUser> getFollowing() {
@@ -154,5 +155,13 @@ public class ApplicationUser implements UserDetails {
 
     public void setFollowing(Set<ApplicationUser> following) {
         this.following = following;
+    }
+
+    public Set<ApplicationUser> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<ApplicationUser> followers) {
+        this.followers = followers;
     }
 }

@@ -6,16 +6,19 @@
     <title>feed page</title>
 </head>
 <body>
-<div th:each="followers:${allMyFolwing}"></div>
-<div >
-    <p th:text="${follower.firstName}"></p>
-    <p th:text="${follower.lastName}"></p>
-    <p th:text="${follower.userName}"></p>
-    <p th:text="${follower.bio}"></p>
+<header th:replace="fragment :: header"></header>
 
-    <P>Posts</P>
+<div th:each="users:${allMyFolwing}"></div>
+<div >
+
+<!--    <p th:text="${allMyFolwing.firstName}"></p>-->
+<!--    <p th:text="${follower.lastName}"></p>-->
+<!--    <p th:text="${follower.userName}"></p>-->
+<!--    <p th:text="${follower.bio}"></p>-->
+
+    <h1>Posts</h1>
 <ul>
-    <li th:each="post:${follower.posts}" th:text="${post.body}"></li>
+<!--    <li th:each="post:${followers.post}" th:text="${post.body}"></li>-->
 </ul>
 </div>
 
