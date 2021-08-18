@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ApplicationUser;
-import com.example.demo.entity.ApplicationUserRepository;
+import com.example.demo.Repository.ApplicationUserRepository;
 import com.example.demo.entity.Post;
-import com.example.demo.entity.PostRepositry;
+import com.example.demo.Repository.PostRepositry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

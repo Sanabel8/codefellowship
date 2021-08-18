@@ -1,7 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.ApplicationUser;
-import com.example.demo.entity.ApplicationUserRepository;
+import com.example.demo.Repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

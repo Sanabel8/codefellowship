@@ -2,9 +2,12 @@ package com.example.demo.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -22,7 +25,20 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy = "applicationUsers")
     private List<Post> posts;
 
-    public ApplicationUser(){}
+    @ManyToMany
+    @JoinTable(
+            name = "follwing_follwers",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private Set<ApplicationUser> followers = new HashSet<>();
+
+
+    @ManyToMany(mappedBy = "followers")
+    Set<ApplicationUser> following = new HashSet<>();
+
+
+    public ApplicationUser() {
+    }
 
     public ApplicationUser(String username, String password, String firstName, String lastName, String dateOfBirth, String bio) {
         this.username = username;
@@ -122,5 +138,21 @@ public class ApplicationUser implements UserDetails {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Set<ApplicationUser> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<ApplicationUser> followers) {
+        this.followers = followers;
+    }
+
+    public Set<ApplicationUser> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Set<ApplicationUser> following) {
+        this.following = following;
     }
 }

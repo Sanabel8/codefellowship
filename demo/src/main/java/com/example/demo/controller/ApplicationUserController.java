@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.Repository.PostRepositry;
 import com.example.demo.entity.ApplicationUser;
-import com.example.demo.entity.ApplicationUserRepository;
+import com.example.demo.Repository.ApplicationUserRepository;
+import com.example.demo.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+
 import java.security.Principal;
+import java.util.Set;
 
 @Controller
 public class ApplicationUserController {
@@ -19,56 +23,95 @@ public class ApplicationUserController {
     ApplicationUserRepository applicationUserRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    PostRepositry postRepositry;
 
-    @GetMapping("/")
-    public String getSplashPage(Principal principal){
-        return "index.html";
-    }
-    @GetMapping("/home")
-    public String getHome(Model model, Principal principal){
-        model.addAttribute("userData",principal.getName());
-        return "home.html";
-    }
+
+    // for authintication
     @GetMapping("/signup")
-    public String getSignUpPage(){
+    public String getSignUpPage() {
         return "signup.html";
     }
 
     @GetMapping("/login")
-    public String getSignInPage(){
+    public String getSignInPage() {
         return "signin.html";
     }
 
     @PostMapping("/signup")
-    public RedirectView signUp(@RequestParam(value="username") String username,
-                               @RequestParam(value="password") String password,
-                               @RequestParam(value="firstName") String firstName,
-                               @RequestParam(value="lastName") String lastName,
-                               @RequestParam(value="password") String dateOfBirth,
-                               @RequestParam(value="bio") String bio ){
-        ApplicationUser newUser = new ApplicationUser(username,bCryptPasswordEncoder.encode(password),firstName,lastName,dateOfBirth,bio);
+    public RedirectView signUp(@RequestParam(value = "username") String username,
+                               @RequestParam(value = "password") String password,
+                               @RequestParam(value = "firstName") String firstName,
+                               @RequestParam(value = "lastName") String lastName,
+                               @RequestParam(value = "password") String dateOfBirth,
+                               @RequestParam(value = "bio") String bio) {
+        ApplicationUser newUser = new ApplicationUser(username, bCryptPasswordEncoder.encode(password), firstName, lastName, dateOfBirth, bio);
         applicationUserRepository.save(newUser);
         return new RedirectView("/signup");
     }
 
+
+    // for user
+
     @GetMapping("/user/{id}")
-    public String getUserProfile(Principal principal, Model model, @PathVariable Integer id){
+    public String getUserProfile(Principal principal, Model model, @PathVariable Integer id) {
         ApplicationUser user = applicationUserRepository.findById(id).get();
-        model.addAttribute("userData", user);
-        model.addAttribute("userProfile", user.getUsername());
+        model.addAttribute("userData", principal.getName());
+        model.addAttribute("allUserdata", user.getUsername());
 
         return "user.html";
     }
-    @GetMapping(value = "/profile")
-    public String getProfile(Principal principal , Model model) {
-        model.addAttribute("userData" , principal.getName());
-        model.addAttribute("userProfile" , applicationUserRepository.findByUsername(principal.getName()));
 
+    @PostMapping(value = "/user")
+    public RedirectView addPost(Principal principal, @RequestParam(value = "body") String body, Model model) {
+        Post post = new Post(body, applicationUserRepository.findByUsername(principal.getName()));
+//        model.addAttribute("userData" , principal.getName());
+//        model.addAttribute("userProfile" , applicationUserRepository.findByUsername(principal.getName()));
+        postRepositry.save(post);
+        return new RedirectView("/profile.html");
+    }
+
+    @GetMapping("/profiles/{id}")
+    public String getProfilePage(Principal p, Model m, @PathVariable Integer id) {
+        ApplicationUser requiredProfile = applicationUserRepository.findById(id).get();
+        if (requiredProfile != null) {
+            m.addAttribute("requireduser", requiredProfile);
+            String requiredProfileUserName = requiredProfile.getUsername();
+            String loggedInUserName = p.getName();
+            boolean isLoggedInUserPofile = requiredProfileUserName.equals(loggedInUserName);
+            m.addAttribute("isLoggedInUserPofile", isLoggedInUserPofile);
+
+        } else {
+            System.out.println("error messege");
+        }
         return "profile.html";
     }
+
+    // for follow
+    @PostMapping("/follow")
+    public RedirectView addFollow(Principal principal, @RequestParam(value = "id") int id) {
+        ApplicationUser forName = applicationUserRepository.findByUsername(principal.getName());
+        ApplicationUser forId = applicationUserRepository.findById(id).get();
+        forName.getFollowers().add(forId);
+
+        applicationUserRepository.save(forName);
+        return new RedirectView("/feed");
+    }
+
+    @GetMapping("/feed")
+    public String getFollowingData(Principal principal, Model model) {
+        model.addAttribute("userData", principal.getName());
+
+        ApplicationUser forName = applicationUserRepository.findByUsername(principal.getName());
+        Set<ApplicationUser> myFollowing = forName.getFollowers();
+        model.addAttribute(("allMyFolwing"), myFollowing);
+        return ("/feed.html");
+    }
+
     @GetMapping("/error")
-    public  String errorPart(){
+    public String errorPart() {
         return "error.html";
     }
+
 
 }

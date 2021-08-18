@@ -34,3 +34,11 @@ Continue working in your codefellowship repo.
 A Post has a body and a createdAt timestamp.
 A logged-in user should be able to create a Post, and a post should belong to the user that created it.
 
+
+# lab18
+# overview
+* Allow users to follow other users. Following a user means that their posts show up in the logged-in user’s feed.
+
+* A user can visit a url (like /feed) to view all of the posts from the users that they follow.
+Each post should have a link to the user profile of the user who wrote the post.
+

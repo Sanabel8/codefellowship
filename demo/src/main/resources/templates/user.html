@@ -2,21 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <title>User Data</title>
+
 </head>
 <body>
-
-<h2 th:text="${userData}"></h2>
-
-<form action="/home" method="get">
-    <button type="submit">Home</button>
+<img src="resources/static/Wheat.jpg" alt="pofile img">
+<br>
+<h2>User Name</h2>
+<p th:text="${allUserdata.username}"></p>
+<br>
+<h2>First Name</h2>
+<p th:text="${allUserdata.firstName}"></p>
+<br>
+<h2>Last Name</h2>
+<p th:text="${allUserdata.lastName}"></p>
+<br>
+<h2>Date Of Birth</h2>
+<p th:text="${allUserdata.dateOfBirth}"></p>
+<br>
+<h2>Bio</h2>
+<p th:text="${allUserdata.bio}"></p>
+<br>
+<br>
+<br>
+<form action="/user" method="post">
+    <h2>Add Post</h2>
+    <label for="body">Add Post</label>
+    <input type="text" name="body" id="body"/>
+    <br>
+    <button type="submit">Post</button>
 </form>
-<img src="https://c.tenor.com/o0KwNh5LwK4AAAAC/cat-meow.gif" alt="ProfilePicture">
-<p th:text="${userProfile.username}">User Name</p>
-<p th:text="${userProfile.firstName}">First Name</p>
-<p th:text="${userProfile.lastName}">Last Name</p>
-<p th:text="${userProfile.dateOfBirth}">Date Of Birth</p>
-<p th:text="${userProfile.bio}">Bio</p>
+<br>
+<div th:each="post:${allUserdata.posts}">
+    <p th:text="${'post'+post.id}"></p>
+    <p th:text="${'post'+post.createdAt}"></p>
+    <p th:text="${'post'+post.body}"></p>
+
+</div>
 </body>
 </html>
 
