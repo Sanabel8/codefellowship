@@ -52,28 +52,31 @@ public class ApplicationUserController {
 
 
     // for user
-
-    @GetMapping("/user/{id}")
-    public String getUserProfile(Principal principal, Model model, @PathVariable Integer id) {
+    @GetMapping("/users/{id}")
+    public String getUserProfile(Principal principal,Model model, @PathVariable Integer id) {
         ApplicationUser user = applicationUserRepository.findById(id).get();
-        model.addAttribute("userData", principal.getName());
-        model.addAttribute("allUserdata", user.getUsername());
+        model.addAttribute("requireduser",user);
 
-        return "user.html";
+//        ApplicationUser newUser = applicationUserRepository.findByUsername(principal.getName());
+//        System.out.println(newUser.getPosts());
+//        model.addAttribute("posts" ,newUser.getPosts());
+
+        return "profile.html";
     }
 
-    @PostMapping(value = "/user")
-    public RedirectView addPost(Principal principal, @RequestParam(value = "body") String body, Model model) {
-        Post post = new Post(body, applicationUserRepository.findByUsername(principal.getName()));
-//        model.addAttribute("userData" , principal.getName());
-//        model.addAttribute("userProfile" , applicationUserRepository.findByUsername(principal.getName()));
-        postRepositry.save(post);
-        return new RedirectView("/profile.html");
-    }
 
-    @GetMapping("/profiles/{id}")
-    public String getProfilePage(Principal p, Model m, @PathVariable Integer id) {
-        ApplicationUser requiredProfile = applicationUserRepository.findById(id).get();
+//    @PostMapping(value = "/user")
+//    public RedirectView addPost(Principal principal, @RequestParam(value = "body") String body, Model model) {
+//        Post post = new Post(body, applicationUserRepository.findByUsername(principal.getName()));
+////        model.addAttribute("userData" , principal.getName());
+////        model.addAttribute("userProfile" , applicationUserRepository.findByUsername(principal.getName()));
+//        postRepositry.save(post);
+//        return new RedirectView("/profile");
+//    }
+
+    @GetMapping("/profile")
+    public String getProfilePage(Principal p, Model m) {
+        ApplicationUser requiredProfile = applicationUserRepository.findByUsername(p.getName());
         if (requiredProfile != null) {
             m.addAttribute("requireduser", requiredProfile);
             String requiredProfileUserName = requiredProfile.getUsername();
@@ -102,16 +105,13 @@ public class ApplicationUserController {
     public String getFollowingData(Principal principal, Model model) {
         model.addAttribute("userData", principal.getName());
 
-        ApplicationUser forName = applicationUserRepository.findByUsername(principal.getName());
-        Set<ApplicationUser> myFollowing = forName.getFollowers();
-        model.addAttribute(("allMyFolwing"), myFollowing);
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(principal.getName());
+//        Set<ApplicationUser> myFollowing = applicationUser.getFollowers();
+        model.addAttribute(("allMyFolwing"), applicationUser.getFollowers());
         return ("/feed.html");
     }
 
-    @GetMapping("/error")
-    public String errorPart() {
-        return "error.html";
-    }
+
 
 
 }

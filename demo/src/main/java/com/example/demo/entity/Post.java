@@ -6,12 +6,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name="post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
      private Integer id;
-    @Column(unique = true)
      private String body;
      private String username;
      @CreationTimestamp
@@ -20,7 +20,7 @@ public class Post {
      private Date createdAt;
 
     @ManyToOne
-    private ApplicationUser applicationUsers;
+     ApplicationUser applicationUsers;
 
     public Post(){}
 

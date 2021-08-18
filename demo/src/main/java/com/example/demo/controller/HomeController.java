@@ -15,7 +15,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String getHome(Model model, Principal principal){
-        model.addAttribute("userData",principal.getName());
+//        model.addAttribute("userData",principal.getName());
         return "home.html";
     }
 }

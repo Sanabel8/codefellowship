@@ -7,39 +7,41 @@
 
 </head>
 <body>
-<img src="resources/static/Wheat.jpg" alt="pofile img">
+<header th:replace="fragment :: header"></header>
+<div th:each="appUser : ${appUsers}"></div>
+<img src="https://unsplash.com/photos/MgtHZ4zlC1U" alt="pofile img">
 <br>
 <h2>User Name</h2>
-<p th:text="${allUserdata.username}"></p>
+<p th:text="${appUsers.username}"></p>
 <br>
 <h2>First Name</h2>
-<p th:text="${allUserdata.firstName}"></p>
+<p th:text="${appUsers.firstName}"></p>
 <br>
 <h2>Last Name</h2>
-<p th:text="${allUserdata.lastName}"></p>
+<p th:text="${appUsers.lastName}"></p>
 <br>
 <h2>Date Of Birth</h2>
-<p th:text="${allUserdata.dateOfBirth}"></p>
+<p th:text="${appUsers.dateOfBirth}"></p>
 <br>
 <h2>Bio</h2>
-<p th:text="${allUserdata.bio}"></p>
+<p th:text="${appUsers.bio}"></p>
 <br>
 <br>
 <br>
-<form action="/user" method="post">
-    <h2>Add Post</h2>
-    <label for="body">Add Post</label>
-    <input type="text" name="body" id="body"/>
-    <br>
-    <button type="submit">Post</button>
-</form>
+<!--<form action="/user" method="post">-->
+<!--    <h2>Add Post</h2>-->
+<!--    <label for="body">Add Post</label>-->
+<!--    <input type="text" name="body" id="body"/>-->
+<!--    <br>-->
+<!--    <button type="submit">Post</button>-->
+<!--</form>-->
 <br>
-<div th:each="post:${allUserdata.posts}">
-    <p th:text="${'post'+post.id}"></p>
-    <p th:text="${'post'+post.createdAt}"></p>
-    <p th:text="${'post'+post.body}"></p>
+<!--<div th:each="post:${allUserdata.posts}">-->
+<!--    <p th:text="${'post'+post.id}"></p>-->
+<!--    <p th:text="${'post'+post.createdAt}"></p>-->
+<!--    <p th:text="${'post'+post.body}"></p>-->
 
-</div>
+<!--</div>-->
 </body>
 </html>
 
