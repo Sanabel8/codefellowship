@@ -4,10 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -26,21 +23,18 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy = "applicationUsers")
     private List<Post> post;
 
-    @ManyToMany
-    @JoinTable(
-            name = "applicationUserPage",
-            joinColumns = @JoinColumn(name = "followerUser"),
-            inverseJoinColumns = @JoinColumn(name = "followingUser"))
-    private Set<ApplicationUser> following = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "follwerAndFollwing",
+            joinColumns = @JoinColumn(name = "followerId"),
+            inverseJoinColumns = @JoinColumn(name = "followingId"))
+    private Set<ApplicationUser> followers  = new HashSet<>();
 
 
-    @ManyToMany(mappedBy = "following")
-    Set<ApplicationUser> followers = new HashSet<>();
-
+    @ManyToMany(mappedBy = "followers")
+    Set<ApplicationUser> following  = new HashSet<>();
 
     public ApplicationUser() {
-    }
-
+            }
     public ApplicationUser(String username, String password, String firstName, String lastName, String dateOfBirth, String bio) {
         this.username = username;
         this.password = password;
@@ -163,5 +157,11 @@ public class ApplicationUser implements UserDetails {
 
     public void setFollowers(Set<ApplicationUser> followers) {
         this.followers = followers;
+    }
+
+
+
+    public void addNewFollowed(ApplicationUser user){
+        followers.add(user);
     }
 }

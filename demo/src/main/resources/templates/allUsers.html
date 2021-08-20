@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All users Page</title>
+
+</head>
+<body>
+<header th:replace="fragment :: header"></header>
+    <div th:each="user:${Allusers}">
+        <p th:text="${user.firstName + ' ' + user.lastName}"></p>
+        <p th:text="${user.username}"></p>
+        <p th:text="${user.bio}"></p>
+      </div>
+      </form>
+</body>
+</html>

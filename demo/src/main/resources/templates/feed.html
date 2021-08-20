@@ -7,20 +7,11 @@
 </head>
 <body>
 <header th:replace="fragment :: header"></header>
-
-<div th:each="users:${allMyFolwing}"></div>
-<div >
-
-<!--    <p th:text="${allMyFolwing.firstName}"></p>-->
-<!--    <p th:text="${follower.lastName}"></p>-->
-<!--    <p th:text="${follower.userName}"></p>-->
-<!--    <p th:text="${follower.bio}"></p>-->
-
-    <h1>Posts</h1>
-<ul>
-<!--    <li th:each="post:${followers.post}" th:text="${post.body}"></li>-->
-</ul>
-</div>
-
+<h1>feeds</h1>
+    <div  th:each="follower:${Allfollowing}">
+            <p th:text="${followers.firstName + ' ' + followers.lastName}"></p>
+            <p th:text="${followers.username}"></p>
+            <p  th:text="${followers.bio}"></p>
+               </div>
 </body>
 </html>
